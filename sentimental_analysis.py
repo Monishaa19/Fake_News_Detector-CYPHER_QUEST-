@@ -23,11 +23,19 @@ comments = sys.argv[1]
 
 # Proceed if comments were successfully read
 if comments:
+    # Debugging: Print the comments to check input
+    print(f"Comments received for analysis: {comments}")
+
     # Create DataFrame from comments
     df = pd.DataFrame({'comments': [comments]})
 
     # Analyze sentiment for the comment
     df['sentiment_score'] = df['comments'].apply(analyze_sentiment)
+
+    # Debugging: Print the sentiment scores
+    print(f"Sentiment scores: {df['sentiment_score']}")
+
+    # Apply sentiment label
     df['sentiment'] = df['sentiment_score'].apply(lambda x: 'Negative' if x < -0.2 else 'Positive')
 
     # Print results
@@ -35,7 +43,10 @@ if comments:
 
     # Report negative comments
     negative_comments = df[df['sentiment'] == 'Negative']
-    # print("Negative Comments Report:")
-    # print(negative_comments)
+    if not negative_comments.empty:
+        print("Negative Comments Report:")
+        print(negative_comments)
+    else:
+        print("No negative comments found.")
 else:
     print("No comments to process.")

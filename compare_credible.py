@@ -7,9 +7,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
 
-# Download required NLTK data
-nltk.download('punkt')
-nltk.download('stopwords')
+try:
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    nltk.download('punkt_tab')
+
+except:
+    pass
+
 
 # # Define file paths
 # source_file_path = r"C:\Users\prart\OneDrive\Desktop\source.txt"

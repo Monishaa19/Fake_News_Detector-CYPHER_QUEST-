@@ -9,9 +9,8 @@
 #     )
 
 import sys
-from langchain.prompts import PromptTemplate
 from langchain_google_genai import GoogleGenerativeAI
-GEMINI_API_KEY = "GEMINI_API_KEY"
+GEMINI_API_KEY = "AIzaSyBRqRIkLoQX2MAdQ-AvPo_fPOXBxKni3a0"
 
 generation_config = {
     "temperature": 0.2,   # Lower temperature for more conservative and precise outputs
@@ -21,11 +20,18 @@ generation_config = {
     "response_mime_type": "text/plain",  # Output format type
 }
 
+class PromptTemplate:
+    def __init__(self, input_variables, template):
+        self.input_variables = input_variables
+        self.template = template
+
+    def format(self, **kwargs):
+        return self.template.format(**kwargs)
 
 
 llm = GoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_API_KEY)
 
-quest="I want to get more information about this particular statement: {your_text}. give me relevant urls.atleast provide some known credible news platforms or government related websites such as.dont just say u cant provide .just search and give me the url as result. I want a short para around 200 words explaining the conetents from these sources about the statement."
+quest="I want to get more information about this particular statement: {your_text}. strictly somehow give me relevant urls, generate the urls if you eant but know that I need urls.atleast provide some known credible news platforms or government related websites such as.do not say I cannot directly generate usl instead generate something that looks like a valid url atleast and then give me a analyses of the statement in 200"
 
 # chat_session = llm.model.start_chat(
 #   history=[
@@ -47,5 +53,3 @@ input_value = sys.argv[1]
 x=x.format(your_text=input_value)
 response = llm.invoke(x)
 print(response)
-
-

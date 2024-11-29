@@ -3,17 +3,27 @@ import streamlit as st
 import pandas as pd
 import requests
 from urllib.parse import urlparse
+import streamlit.components.v1 as components
 import subprocess
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from langchain.prompts import PromptTemplate
 from langchain_google_genai import GoogleGenerativeAI  # Assuming correct import path
 
 # Configure Google Generative AI
-GEMINI_API_KEY = "AIzaSyBxsNgKI-TQbKVi8qZyij9RICZJCqgOpbw"
+GEMINI_API_KEY = "GEMINI_API_KEY"
 os.environ["GEMINI_API_KEY"] = GEMINI_API_KEY
 
 # Initialize NLTK Sentiment Analyzer
 sia = SentimentIntensityAnalyzer()
+
+def read_html_file(file_path):
+    with open(file_path, 'r') as file:
+        html_content = file.read()
+    return html_content
+
+# Render the HTML file
+def render_html(html_content):
+    components.html(html_content, height=600, scrolling=True)
 
 # Function to get domain name from URL
 def get_domain_name(url):
@@ -84,6 +94,15 @@ def run_sentiment_analysis(comments):
 
 # Main Streamlit App code for "TruthShield AI Guard"
 def main():
+    html_file_path = "Homepage1.html"
+
+    # Read and render the HTML file
+    try:
+        html_content = read_html_file(html_file_path)
+        render_html(html_content)
+    except Exception as e:
+        st.error(f"Error reading or rendering HTML file: {e}")
+
     post_input = st.text_input("Write your post:", max_chars=10000)
 
     if st.button("Start Fact Checking"):
